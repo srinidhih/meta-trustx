@@ -32,28 +32,17 @@ mkdir -p /dev/shm
 mkdir -p /data
 
 udevd --daemon
-udevadm trigger --type=subsystems --action=add
-sleep 2
-udevadm settle
-udevadm trigger --type=devices --action=add
-sleep 2
-udevadm settle
+
+udevadm trigger --action=add
+udevadm settle 
 
 mount -a
 
 mkdir -p /data/logs
 
 #now modules partition is mounted
-echo "Waiting for devices ."
-for i in {1..4}; do
-	echo -n "."
-	udevadm trigger --type=subsystems --action=add
-	sleep 2
-	udevadm settle
-	udevadm trigger --type=devices --action=add
-	sleep 2
-	udevadm settle
-done
+udevadm trigger --action=add
+udevadm settle
 
 modprobe loop
 modprobe btrfs
